@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FKS-Press</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;900&family=Roboto&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Roboto',sans-serif;
+  background:#f4f6f8;
+  color:#111;
+}
+
+/* ===== HEADER ===== */
+header{
+  width:100%;
+  background:#fff;
+  border-bottom:1px solid #ddd;
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-bottom:10px;
+}
+
+/* Top part: brand + admin button */
+.header-top{
+  width:100%;
+  display:flex;
+  justify-content:center; /* brand centered */
+  position:relative;
+  padding:12px 0;
+}
+
+/* Brand styling */
+.brand{
+  font-family:'Poppins',sans-serif;
+  font-size:52px;
+  font-weight:900;
+  color:#111;
+  text-align:center;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+  animation:logoFade 1.5s ease;
+}
+
+/* Admin button top-right */
+.admin-btn{
+  position:absolute;
+  right:20px;
+  top:50%;
+  transform: translateY(-50%);
+  border:none;
+  background:#111;
+  color:#fff;
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:.3s;
+}
+.admin-btn:hover{
+  background:#000;
+  transform:translateY(-50%) translateY(-2px);
+}
+
+/* Navigation buttons below brand */
+#mainNav{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:10px;
+}
+
+nav button, button{
+  border:none;
+  background:#111;
+  color:#fff;
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:.3s;
+}
+nav button:hover, button:hover{
+  background:#000;
+  transform:translateY(-2px);
+}
+
+#hamburger{display:none;font-size:24px;cursor:pointer}
+
+#mobileMenu{
+  display:none;
+  position:absolute;
+  top:65px;
+  left:10px;
+  background:#fff;
+  padding:10px;
+  border-radius:12px;
+  box-shadow:0 8px 20px rgba(0,0,0,.2)
+}
+#mobileMenu button{
+  display:block;
+  width:100%;
+  margin:6px 0
+}
+
+/* ===== HERO ===== */
+.hero{
+  background:#000;
+  color:#fff;
+  padding:70px 20px;
+  text-align:center;
+}
+.hero h1{
+  font-size:48px;
+  font-family:'Poppins',sans-serif;
+  animation:pop 1.2s ease;
+}
+.hero p{opacity:.85}
+
+@keyframes pop{
+  from{transform:scale(.8);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+@keyframes logoFade{
+  from{opacity:0;transform:translateY(-10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ===== PAGES ===== */
+.page{
+  display:none;
+  max-width:1100px;
+  margin:30px auto;
+  background:#fff;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 6px 20px rgba(0,0,0,.08)
+}
+
+.card{
+  background:#fff;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.1);
+  margin-bottom:20px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  text-align:center;
+  padding:30px;
+  background:#111;
+  color:#fff;
+}
+
+/* ===== ADMIN ===== */
+.admin-panel{
+  display:none;
+  min-height:100vh;
+  background:#111;
+  color:#fff;
+  padding:20px
+}
+.admin-box{
+  background:#222;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:15px
+}
+.editor{
+  background:#fff;
+  color:#000;
+  padding:12px;
+  border-radius:10px;
+  min-height:300px;
+  outline:none
+}
+
+/* ===== PASSWORD MODAL ===== */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  align-items:center;
+  justify-content:center;
+  z-index:50;
+}
+.modal-box{
+  background:#fff;
+  padding:25px;
+  border-radius:14px;
+  width:300px;
+  text-align:center;
+  animation:fadeIn .3s ease;
+}
+.modal-box input{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+.error{
+  color:red;
+  font-size:14px;
+  display:none;
+}
+.close{
+  position:absolute;
+  right:20px;
+  top:15px;
+  cursor:pointer;
+  font-size:18px;
+}
+
+.shake{
+  animation:shake .3s;
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-5px)}
+  75%{transform:translateX(5px)}
+}
+
+@media(max-width:768px){
+  #mainNav{display:none}
+  #hamburger{display:block}
+}
+</style>
+</head>
+
+<body>
+
+<header id="mainHeader">
+  <div class="header-top">
+    <div class="brand">FKS‑Press</div>
+    <button class="admin-btn" onclick="openPassword()">Admin</button>
+  </div>
+
+  <nav id="mainNav">
+    <button onclick="openPage('home')">Home</button>
+    <button onclick="openPage('world')">World</button>
+    <button onclick="openPage('business')">Business</button>
+    <button onclick="openPage('tech')">Tech</button>
+    <button onclick="openPage('contact')">Contact</button>
+  </nav>
+
+  <div id="mobileMenu">
+    <button onclick="openPage('home')">Home</button>
+    <button onclick="openPage('world')">World</button>
+    <button onclick="openPage('business')">Business</button>
+    <button onclick="openPage('tech')">Tech</button>
+    <button onclick="openPage('contact')">Contact</button>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>FKS‑Press</h1>
+  <p>School News • Knowledge • Truth</p>
+</section>
+
+<section id="home" class="page"><h2>Home</h2><div id="homeContent"></div></section>
+<section id="world" class="page"><h2>World</h2><div id="worldContent"></div></section>
+<section id="business" class="page"><h2>Business</h2><div id="businessContent"></div></section>
+<section id="tech" class="page"><h2>Tech</h2><div id="techContent"></div></section>
+
+<section id="contact" class="page">
+<h2>Contact</h2>
+<p>Email: fks.press25@gmail.com</p>
+
+<h2>About</h2>
+<div class="card">
+This website is made by <b>Fountain of Knowledge School Newspaper Club</b>.  
+It serves as a platform for sharing news, creativity, and student voices.
+</div>
+</section>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-box">
+    <button onclick="loadEditor('home')">Home</button>
+    <button onclick="loadEditor('world')">World</button>
+    <button onclick="loadEditor('business')">Business</button>
+    <button onclick="loadEditor('tech')">Tech</button>
+    <button onclick="exitAdmin()">Exit</button>
+  </div>
+
+  <div class="admin-box">
+    <h3 id="editingTitle"></h3>
+    <button onclick="cmd('bold')">Bold</button>
+    <button onclick="cmd('italic')">Italic</button>
+    <button onclick="savePage()">Save</button>
+    <div id="editor" class="editor" contenteditable="true"></div>
+  </div>
+</div>
+
+<!-- PASSWORD MODAL -->
+<div class="modal" id="passwordModal">
+  <div class="modal-box" id="modalBox">
+    <div class="close" onclick="closePassword()">✖</div>
+    <h3>Admin Access</h3>
+    <input type="password" id="passwordInput" placeholder="Enter password">
+    <p class="error" id="errorMsg">Password incorrect, try again</p>
+    <button onclick="checkPassword()">Enter</button>
+  </div>
+</div>
+
+<footer>© <span id="year"></span> FKS‑Press</footer>
+
+<script>
+const pages=["home","world","business","tech"];
+let currentEditPage="home";
+const ADMIN_PASSWORD="211321";
+year.innerText=new Date().getFullYear();
+
+pages.forEach(p=>{
+  if(!localStorage.getItem(p)){
+    localStorage.setItem(p,`<div class="card">Welcome to ${p} news.</div>`);
+  }
+});
+
+openPage("home");
+
+function toggleMobileMenu(){
+  mobileMenu.style.display=mobileMenu.style.display==="block"?"none":"block";
+}
+function openPage(p){
+  document.querySelectorAll(".page").forEach(x=>x.style.display="none");
+  document.getElementById(p).style.display="block";
+  document.getElementById(p+"Content").innerHTML=localStorage.getItem(p);
+  mobileMenu.style.display="none";
+}
+
+/* PASSWORD */
+function openPassword(){
+  passwordModal.style.display="flex";
+}
+function closePassword(){
+  passwordModal.style.display="none";
+  errorMsg.style.display="none";
+  passwordInput.value="";
+}
+function checkPassword(){
+  if(passwordInput.value===ADMIN_PASSWORD){
+    closePassword();
+    enterAdmin();
+  }else{
+    errorMsg.style.display="block";
+    modalBox.classList.add("shake");
+    setTimeout(()=>modalBox.classList.remove("shake"),300);
+  }
+}
+
+/* ADMIN */
+function enterAdmin(){
+  mainHeader.style.display="none";
+  adminPanel.style.display="block";
+  loadEditor("home");
+}
+function exitAdmin(){
+  adminPanel.style.display="none";
+  mainHeader.style.display="flex";
+  openPage(currentEditPage);
+}
+function loadEditor(p){
+  currentEditPage=p;
+  editingTitle.innerText="Editing: "+p;
+  editor.innerHTML=localStorage.getItem(p);
+}
+function cmd(c){
+  document.execCommand(c,false,null);
+}
+function savePage(){
+  localStorage.setItem(currentEditPage,editor.innerHTML);
+  alert("Saved ✔");
+}
+</script>
+
+</body>
+</html>
